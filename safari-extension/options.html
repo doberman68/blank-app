@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preset Folder Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Configure Preset Folders</h1>
+    <p class="description">Set up your 3 preset folders for quick file downloads.</p>
+
+    <form id="settingsForm">
+      <div class="folder-config">
+        <h2>Folder 1</h2>
+        <div class="input-group">
+          <label for="folder1Name">Name:</label>
+          <input type="text" id="folder1Name" placeholder="e.g., Documents" required>
+        </div>
+        <div class="input-group">
+          <label for="folder1Path">Path:</label>
+          <input type="text" id="folder1Path" placeholder="e.g., Documents or Documents/Work" required>
+        </div>
+      </div>
+
+      <div class="folder-config">
+        <h2>Folder 2</h2>
+        <div class="input-group">
+          <label for="folder2Name">Name:</label>
+          <input type="text" id="folder2Name" placeholder="e.g., Downloads" required>
+        </div>
+        <div class="input-group">
+          <label for="folder2Path">Path:</label>
+          <input type="text" id="folder2Path" placeholder="e.g., Downloads or Downloads/Media" required>
+        </div>
+      </div>
+
+      <div class="folder-config">
+        <h2>Folder 3</h2>
+        <div class="input-group">
+          <label for="folder3Name">Name:</label>
+          <input type="text" id="folder3Name" placeholder="e.g., Desktop" required>
+        </div>
+        <div class="input-group">
+          <label for="folder3Path">Path:</label>
+          <input type="text" id="folder3Path" placeholder="e.g., Desktop or Desktop/Files" required>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" id="saveBtn">Save Settings</button>
+        <button type="button" id="resetBtn">Reset to Defaults</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </form>
+
+    <div class="info-box">
+      <h3>📝 Path Information</h3>
+      <ul>
+        <li>Paths are relative to your Downloads folder</li>
+        <li>Use forward slashes (/) for subfolders</li>
+        <li>Example: "Documents/Work" saves to Downloads/Documents/Work</li>
+        <li>Folders will be created automatically if they don't exist</li>
+      </ul>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

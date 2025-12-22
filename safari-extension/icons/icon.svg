@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="20" fill="#0066cc"/>
+  <g transform="translate(24, 24)">
+    <!-- Folder 1 -->
+    <path d="M8 15 L8 10 L14 10 L17 7 L32 7 L32 15 Z" fill="#ffffff" opacity="0.9"/>
+    <path d="M8 15 L8 28 L32 28 L32 15 Z" fill="#ffffff"/>
+
+    <!-- Folder 2 -->
+    <path d="M24 30 L24 25 L30 25 L33 22 L48 22 L48 30 Z" fill="#ffffff" opacity="0.9"/>
+    <path d="M24 30 L24 43 L48 43 L48 30 Z" fill="#ffffff"/>
+
+    <!-- Folder 3 -->
+    <path d="M40 45 L40 40 L46 40 L49 37 L64 37 L64 45 Z" fill="#ffffff" opacity="0.9"/>
+    <path d="M40 45 L40 58 L64 58 L64 45 Z" fill="#ffffff"/>
+
+    <!-- Numbers -->
+    <text x="20" y="24" fill="#0066cc" font-family="Arial, sans-serif" font-size="8" font-weight="bold">1</text>
+    <text x="36" y="39" fill="#0066cc" font-family="Arial, sans-serif" font-size="8" font-weight="bold">2</text>
+    <text x="52" y="54" fill="#0066cc" font-family="Arial, sans-serif" font-size="8" font-weight="bold">3</text>
+  </g>
+</svg>

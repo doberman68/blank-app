@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preset Folder Downloader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Save to Preset Folder</h1>
+    <div class="folder-list" id="folderList">
+      <div class="folder-item" data-folder="1">
+        <div class="folder-icon">📁</div>
+        <div class="folder-info">
+          <div class="folder-name" id="folder1Name">Documents</div>
+          <div class="folder-path" id="folder1Path">~/Documents</div>
+        </div>
+      </div>
+      <div class="folder-item" data-folder="2">
+        <div class="folder-icon">📁</div>
+        <div class="folder-info">
+          <div class="folder-name" id="folder2Name">Downloads</div>
+          <div class="folder-path" id="folder2Path">~/Downloads</div>
+        </div>
+      </div>
+      <div class="folder-item" data-folder="3">
+        <div class="folder-icon">📁</div>
+        <div class="folder-info">
+          <div class="folder-name" id="folder3Name">Desktop</div>
+          <div class="folder-path" id="folder3Path">~/Desktop</div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-link">
+      <button id="settingsBtn">⚙️ Configure Folders</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

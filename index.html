@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Vector Art Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔴🟢 Laser Vector Art Generator</h1>
+            <p class="subtitle">Production-Ready Cut & Engrave Artwork</p>
+        </header>
+
+        <div class="info-panel">
+            <div class="color-legend">
+                <div class="legend-item">
+                    <span class="color-box red"></span>
+                    <span><strong>RED</strong> = Cut paths (exterior silhouette)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box green"></span>
+                    <span><strong>GREEN</strong> = Engrave paths (interior details)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <label for="subject-input">What object, animal, or person would you like to create?</label>
+                <input
+                    type="text"
+                    id="subject-input"
+                    placeholder="e.g., owl, cat, tree, person..."
+                    autocomplete="off"
+                >
+                <button id="generate-btn" class="primary-btn">
+                    <span class="btn-text">Generate Artwork</span>
+                    <span class="btn-loader" style="display: none;">●●●</span>
+                </button>
+
+                <div class="api-key-section">
+                    <label for="api-key-input">Anthropic API Key (optional - stored locally only)</label>
+                    <input
+                        type="password"
+                        id="api-key-input"
+                        placeholder="sk-ant-..."
+                        autocomplete="off"
+                    >
+                    <small>Your API key is stored in browser storage and never sent to our servers</small>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div id="status-message" class="status-message"></div>
+
+                <div id="preview-container" class="preview-container" style="display: none;">
+                    <div class="preview-header">
+                        <h3>Generated Artwork</h3>
+                        <div class="preview-actions">
+                            <button id="download-btn" class="secondary-btn">Download SVG</button>
+                            <button id="copy-svg-btn" class="secondary-btn">Copy SVG Code</button>
+                        </div>
+                    </div>
+                    <div id="svg-preview" class="svg-preview"></div>
+
+                    <div class="validation-results" id="validation-results" style="display: none;">
+                        <h4>Validation Report</h4>
+                        <div id="validation-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="specs">
+                <h3>Design Specifications</h3>
+                <ul>
+                    <li>Simple, childlike illustration style</li>
+                    <li>Single continuous red exterior silhouette (cut path)</li>
+                    <li>Green interior details only (engrave paths)</li>
+                    <li>No fills, gradients, or shading</li>
+                    <li>Production-ready for LightBurn, Epilog, Glowforge</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 -- research_term.applescript
--- Asks for a term, researches it via Wikipedia API,
+-- Asks for a term, researches it via OpenAI API,
 -- and saves a Markdown file to ~/Documents/TermResearch/
 
 -- 1. Ask for a term
@@ -10,7 +10,24 @@ if termInput is "" then
 	return
 end if
 
--- 2. Prepare the output folder
+-- 2. Ask for the OpenAI API key (or read from env / a dotfile)
+set apiKey to ""
+
+-- Try reading from ~/.openai_api_key first so the user isn't prompted every run
+try
+	set apiKey to do shell script "cat ~/.openai_api_key 2>/dev/null | tr -d '\\n'"
+end try
+
+if apiKey is "" then
+	set apiKey to text returned of (display dialog "Enter your OpenAI API key:" default answer "" with title "OpenAI API Key" buttons {"Cancel", "Continue"} default button "Continue" with hidden answer)
+end if
+
+if apiKey is "" then
+	display alert "No API key provided. Exiting." as warning
+	return
+end if
+
+-- 3. Prepare the output folder
 set outputFolder to (path to documents folder as text) & "TermResearch:"
 tell application "Finder"
 	if not (exists folder outputFolder) then
@@ -18,52 +35,71 @@ tell application "Finder"
 	end if
 end tell
 
--- 3. URL-encode the term for use in the API call
-set encodedTerm to do shell script "python3 -c \"import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))\" " & quoted form of termInput
+-- 4. Call the OpenAI Chat Completions API via Python
+set pythonScript to "
+import sys, json, urllib.request, urllib.error
 
--- 4. Query the Wikipedia REST API for a summary
-set apiURL to "https://en.wikipedia.org/api/rest_v1/page/summary/" & encodedTerm
+term    = sys.argv[1]
+api_key = sys.argv[2]
 
-set jsonResult to do shell script "curl -s --max-time 15 -A 'TermResearch/1.0' " & quoted form of apiURL
+prompt = (
+    f'Research the term \"{term}\" and provide a thorough explanation. '
+    'Structure your response as Markdown with these sections:\\n'
+    '## Definition\\n'
+    '## Background\\n'
+    '## Key Concepts\\n'
+    '## Examples\\n'
+    '## Further Reading\\n'
+    'Be concise but informative.'
+)
 
--- 5. Parse key fields from the JSON using Python
-set parseScript to "
-import json, sys
-data = json.loads(sys.stdin.read())
-title       = data.get('title', 'Unknown')
-description = data.get('description', '')
-extract     = data.get('extract', 'No description found.')
-page_url    = data.get('content_urls', {}).get('desktop', {}).get('page', '')
-print(title + '|||' + description + '|||' + extract + '|||' + page_url)
+payload = json.dumps({
+    'model': 'gpt-4o',
+    'messages': [
+        {'role': 'system', 'content': 'You are a knowledgeable research assistant. Respond only in well-structured Markdown.'},
+        {'role': 'user',   'content': prompt}
+    ],
+    'temperature': 0.5
+}).encode()
+
+req = urllib.request.Request(
+    'https://api.openai.com/v1/chat/completions',
+    data=payload,
+    headers={
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+)
+
+try:
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        data = json.loads(resp.read())
+        print(data['choices'][0]['message']['content'])
+except urllib.error.HTTPError as e:
+    body = e.read().decode()
+    print(f'ERROR:{e.code}:{body}', file=sys.stderr)
+    sys.exit(1)
 "
 
-set parsedLine to do shell script "echo " & quoted form of jsonResult & " | python3 -c " & quoted form of parseScript
+set apiResponse to do shell script "python3 -c " & quoted form of pythonScript & " " & quoted form of termInput & " " & quoted form of apiKey
 
--- Split on the delimiter
-set AppleScript's text item delimiters to "|||"
-set parsedParts to text items of parsedLine
-set AppleScript's text item delimiters to ""
+-- 5. Check for errors
+if apiResponse starts with "ERROR:" then
+	display alert "OpenAI API error:" & return & apiResponse as critical
+	return
+end if
 
-set wikiTitle to item 1 of parsedParts
-set wikiDescription to item 2 of parsedParts
-set wikiExtract to item 3 of parsedParts
-set wikiURL to item 4 of parsedParts
-
--- 6. Build the Markdown content
+-- 6. Build the Markdown file content
 set today to do shell script "date '+%Y-%m-%d'"
 
-set mdContent to "# " & wikiTitle & "
+set mdContent to "# " & termInput & "
 
-**Description:** " & wikiDescription & "
-
-## Summary
-
-" & wikiExtract & "
+" & apiResponse & "
 
 ---
 
-**Source:** [Wikipedia](" & wikiURL & ")
 **Researched on:** " & today & "
+**Source:** OpenAI GPT-4o
 "
 
 -- 7. Sanitise the filename (replace spaces and slashes with underscores)

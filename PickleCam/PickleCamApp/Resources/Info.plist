@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Camera & microphone permissions -->
+    <key>NSCameraUsageDescription</key>
+    <string>PickleCam records your pickleball game using the iPhone camera.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>PickleCam captures court audio along with your video.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>PickleCam saves exported game clips to your Photo Library.</string>
+
+    <!-- Background audio keeps the AVAudioSession alive if the screen dims.
+         The camera will still pause when backgrounded (MVP constraint). -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
+
+    <!-- Supported orientations -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Lock screen on while recording is strongly encouraged (set in-app via UIApplication.shared.isIdleTimerDisabled) -->
+    <key>UIRequiresFullScreen</key>
+    <true/>
+
+    <!-- Launch screen (storyboard-less) -->
+    <key>UILaunchScreen</key>
+    <dict/>
+
+    <key>CFBundleName</key>
+    <string>PickleCam</string>
+    <key>CFBundleDisplayName</key>
+    <string>PickleCam</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>MinimumOSVersion</key>
+    <string>17.0</string>
+</dict>
+</plist>

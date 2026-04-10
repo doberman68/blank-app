@@ -1,19 +1,6 @@
-# 🎈 Blank app template
+# Pickleball Dashcam Planning Docs
 
-A simple Streamlit app template for you to modify!
+This repository now includes a concrete implementation blueprint for an iPhone + Apple Watch "dashcam" style pickleball recorder.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
-
-### How to run it on your own machine
-
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+## Document
+- `docs/pickleball-dashcam-ios-watch.md` — architecture, AVFoundation approach, WatchConnectivity flow, MVP roadmap, and testing checklist.

@@ -1,6 +1,6 @@
 -- research_term.applescript
 -- Asks for a term, researches it via OpenAI API,
--- and saves a Markdown file to ~/Documents/TermResearch/
+-- and saves a Markdown file to the Obsidian Vault Terms folder
 
 -- 1. Ask for a term
 set termInput to text returned of (display dialog "Enter a term to research:" default answer "" with title "Term Research" buttons {"Cancel", "Research"} default button "Research")
@@ -27,13 +27,8 @@ if apiKey is "" then
 	return
 end if
 
--- 3. Prepare the output folder
-set outputFolder to (path to documents folder as text) & "TermResearch:"
-tell application "Finder"
-	if not (exists folder outputFolder) then
-		make new folder at (path to documents folder) with properties {name:"TermResearch"}
-	end if
-end tell
+-- 3. Set the Obsidian Terms folder path
+set termsFolderPOSIX to "/Users/mkilci/Obsidian Vaults/Master 1.0/1-HP/@3- Resources - HP/Terms"
 
 -- 4. Call the OpenAI Chat Completions API via Python
 set pythonScript to "
@@ -104,12 +99,22 @@ set mdContent to "# " & termInput & "
 
 -- 7. Sanitise the filename (replace spaces and slashes with underscores)
 set safeFilename to do shell script "echo " & quoted form of termInput & " | tr ' /' '__'"
-set outputFilePOSIX to (POSIX path of (path to documents folder)) & "TermResearch/" & safeFilename & ".md"
+set outputFilePOSIX to termsFolderPOSIX & "/" & safeFilename & ".md"
 
--- 8. Write the file using Python to handle special characters safely
+-- 8. Check for an existing file and prompt to rename if needed
+set fileExists to (do shell script "[ -f " & quoted form of outputFilePOSIX & " ] && echo yes || echo no") is "yes"
+
+repeat while fileExists
+	set newName to text returned of (display dialog "A file named \"" & safeFilename & ".md\" already exists in the Terms folder. Enter a new filename (without .md):" default answer safeFilename with title "File Already Exists" buttons {"Cancel", "Save"} default button "Save")
+	set safeFilename to newName
+	set outputFilePOSIX to termsFolderPOSIX & "/" & safeFilename & ".md"
+	set fileExists to (do shell script "[ -f " & quoted form of outputFilePOSIX & " ] && echo yes || echo no") is "yes"
+end repeat
+
+-- 9. Write the file using Python to handle special characters safely
 do shell script "python3 -c \"import sys; open(sys.argv[1], 'w').write(sys.argv[2])\" " & quoted form of outputFilePOSIX & " " & quoted form of mdContent
 
--- 9. Confirm to the user
+-- 10. Confirm to the user
 display dialog "Research saved!" & return & return & outputFilePOSIX buttons {"Open File", "OK"} default button "OK" with title "Done"
 if button returned of result is "Open File" then
 	do shell script "open " & quoted form of outputFilePOSIX

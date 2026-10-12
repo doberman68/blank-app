@@ -1,0 +1,5 @@
+{
+  "name": "blank-app",
+  "owner": { "name": "Murat" },
+  "plugins": [{ "name": "auto-model", "source": "./mods/auto-model" }]
+}

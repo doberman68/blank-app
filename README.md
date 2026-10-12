@@ -17,3 +17,13 @@ A simple Streamlit app template for you to modify!
    ```
    $ streamlit run streamlit_app.py
    ```
+
+## Auto Model (Claude Code mod)
+
+Picks the main model once per session, locks it to protect the prompt cache, and sends small side jobs to a helper agent. Install it from a terminal Claude Code session:
+
+```
+/plugin install auto-model --marketplace doberman68/blank-app
+```
+
+Answer `y` to add the marketplace, pick the user scope, then run `/automodel on`.

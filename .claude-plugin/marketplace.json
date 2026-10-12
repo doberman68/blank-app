@@ -1,5 +1,13 @@
 {
   "name": "blank-app",
-  "owner": { "name": "Murat" },
-  "plugins": [{ "name": "auto-model", "source": "./mods/auto-model" }]
+  "description": "Murat's Claude Code mods",
+  "owner": {
+    "name": "Murat"
+  },
+  "plugins": [
+    {
+      "name": "auto-model",
+      "source": "./mods/auto-model"
+    }
+  ]
 }
